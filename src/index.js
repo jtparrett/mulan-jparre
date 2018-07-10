@@ -1,8 +1,10 @@
 import {renderNode} from './mulan'
 import Stylesheet from './stylesheet'
-import createRouter from './router'
+import {createRouter, Link} from './router'
 import Products from './products'
 import ErrorPage from './error-page'
+import Button from './button'
+import Contact from './contact'
 
 const styles = Stylesheet({
   header: `
@@ -17,39 +19,45 @@ const styles = Stylesheet({
     width: 100%;
     display: block;
   `,
-  wrapper: `
-    margin: 0 auto 100px;
-    width: 1200px;
-    max-width: 100%;
-    overflow: hidden;
+  footer: `
+    text-align: center;
+    padding: 60px 0 100px;
+  `,
+  copyright: `
+    font-size: 12px;
   `,
   '@global': {
     body: `
       margin: 0;
+      line-height: 1;
+      font-family: 'Open Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
     `
   }
 })
 
 const Home = () => (`
   <h1>Home</h1>
-  <a href="/products">Shop the collection</a>
+  ${Button({ title: 'Shop the collection &rarr;', href: '/products' })}
 `)
 
 const Router = createRouter({
   '': Home,
   '404': ErrorPage,
-  'products': Products
+  'products': Products,
+  'contact': Contact
 })
 
 const App = (root) => (`
   <header class="${styles.header}">
-    <a href="/" class="${styles.link}">
+    <a href="/" data-router-link class="${styles.link}">
       <img src="/assets/box-logo.svg" class="${styles.logo}" />
     </a>
   </header>
-  <div class="${styles.wrapper}">
-    ${Router()(root)}
-  </div>
+  ${Router(0)(root)}
+  <footer class="${styles.footer}">
+    <p class="${styles.copyright}">&copy; J.Parré Apparel Co.</p>
+  </footer>
 `)
 
 

@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "watchify src/index.js -o build/index.js -t [babelify]"
+    "start": "watchify src/index.js -o public/index.js -t [babelify] & http-server",
+    "build": "browserify src/index.js -o public/index.js -t [babelify]"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -14,6 +15,7 @@
     "watchify": "^3.11.0"
   },
   "dependencies": {
+    "delegate-events": "^1.1.1",
     "shopify-buy": "^1.6.0"
   }
 }

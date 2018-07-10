@@ -1,5 +1,6 @@
 export const renderNode = (el, template) => {
-  el.innerHTML = template(el).replace(/undefined/g, '')
+  if(!el){ return false }
+  el.innerHTML = template(el).replace(/undefined|false/g, '')
   return el.childNodes
 }
 

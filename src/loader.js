@@ -2,8 +2,8 @@ import Stylesheet from './stylesheet'
 
 const styles = Stylesheet({
   main: `
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border: 2px solid transparent;
     border-top-color: #000;
     margin: 0 auto;
