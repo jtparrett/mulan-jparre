@@ -1,5 +1,5 @@
 import Client from 'shopify-buy'
-import {renderNode} from './mulan'
+import {renderNode} from 'mulan'
 import Stylesheet from './stylesheet'
 import createRouter from './router'
 import ErrorPage from './error-page'

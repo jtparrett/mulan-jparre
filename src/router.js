@@ -1,4 +1,4 @@
-import {renderNode} from './mulan'
+import {renderNode} from 'mulan'
 import delegate from 'delegate-events'
 
 const getPathname = (pathname) => {

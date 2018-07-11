@@ -1,3 +1,5 @@
+import Title from './title'
+
 export default () => (`
-  <h1>404</h1>
+  ${Title('404. Page not Found. Soz')}
 `)
