@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
@@ -16,6 +17,8 @@
   },
   "dependencies": {
     "delegate-events": "^1.1.1",
+    "jss": "^9.8.7",
+    "jss-preset-default": "^4.5.0",
     "mulan": "^2.0.1",
     "shopify-buy": "^1.6.0"
   }

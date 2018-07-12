@@ -1,6 +1,6 @@
 import Client from 'shopify-buy'
 import {renderNode} from 'mulan'
-import Stylesheet from './stylesheet'
+import jss from './jss-setup'
 import createRouter from './router'
 import ErrorPage from './error-page'
 import Grid from './grid'
@@ -20,65 +20,60 @@ client.checkout.create().then((checkout) => {
   checkoutId = checkout.id
 })
 
-const styles = Stylesheet({
-  product: `
-    display: block;
-    background: #fafafa;
-    position: relative;
-    padding-top: 100%;
-  `,
-  detail: `
-    padding: 30px 20px;
-  `,
-  description: `
-    font-size: 12px;
-  `,
-  wrapper: `
-    margin: 0 auto;
-    width: 1200px;
-    max-width: 100%;
-    overflow: hidden;
-  `,
-  wrapper__slim: `
-    width: 700px;
-  `,
-  image: `
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    display: block;
-    max-width: 75%;
-    max-height: 75%;
-  `,
-  nav: `
-    text-align: center;
-    padding-top: 30px;
-  `,
-  returnLink: `
-    color: #000;
-    text-decoration: none;
-    font-size: 12px;
-  `,
-  price: `
-    font-size: 12px;
-    font-style: italic;
-    margin: 10px 0;
-  `,
-  soldOut: `
-    color: red;
-    font-size: 12px;
-    margin: 0;
-  `
-})
-
-Stylesheet({
-  '@global': {
-    [`.${styles.description} p`]: `
-      margin: 0 0 5px;
-    `
+const styles = jss.createStyleSheet({
+  product: {
+    display: 'block',
+    background: '#fafafa',
+    position: 'relative',
+    paddingTop: '100%'
+  },
+  detail: {
+    padding: [30, 20]
+  },
+  description: {
+    fontSize: 12,
+    '& p': {
+      margin: [0, 0, 5]
+    }
+  },
+  wrapper: {
+    margin: [0, 'auto'],
+    width: 1200,
+    maxWidth: '100%',
+    overflow: 'hidden'
+  },
+  wrapper__slim: {
+    width: 700
+  },
+  image: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    display: 'block',
+    maxWidth: '75%',
+    maxHeight: '75%'
+  },
+  nav: {
+    textAlign: 'center',
+    paddingTop: 30
+  },
+  returnLink: {
+    color: '#000',
+    textDecoration: 'none',
+    fontSize: 12
+  },
+  price: {
+    fontSize: 12,
+    fontStyle: 'italic',
+    margin: [10, 0]
+  },
+  soldOut: {
+    color: 'red',
+    fontSize: 12,
+    margin: 0
   }
-})
+}).attach()
 
 const buyForm = (root, product) => {
   delegate.bind(root, '#checkout-form', 'submit', (e) => {
@@ -104,8 +99,8 @@ const buyForm = (root, product) => {
 }
 
 const renderProduct = (product) => (`
-  <a href="/products/${product.handle}" data-router-link class="${styles.product}">
-    <img src="${product.images[0].src}" class="${styles.image}" />
+  <a href="/products/${product.handle}" data-router-link class="${styles.classes.product}">
+    <img src="${client.image.helpers.imageForSize(product.images[0], {maxWidth: 300, maxHeight: 300})}" class="${styles.classes.image}" />
   </a>
 `)
 
@@ -115,17 +110,17 @@ const renderProductDetail = (product) => (root) => {
   const available = product.variants.some(v => v.available)
 
   return `
-    <div class="${styles.wrapper} ${styles.wrapper__slim}">
+    <div class="${styles.classes.wrapper} ${styles.classes.wrapper__slim}">
       ${renderProduct(product)}
-      <div class="${styles.detail}">
+      <div class="${styles.classes.detail}">
         ${Title(product.title)}
-        <div class="${styles.description}">${product.descriptionHtml}</div>
-        <p class="${styles.price}">&pound;${product.variants[0].price}</p>
-        ${!available ? `<p class="${styles.soldOut}">Sold Out</p>` : buyForm(root, product)}
+        <div class="${styles.classes.description}">${product.descriptionHtml}</div>
+        <p class="${styles.classes.price}">&pound;${product.variants[0].price}</p>
+        ${!available ? `<p class="${styles.classes.soldOut}">Sold Out</p>` : buyForm(root, product)}
       </div>
 
-      <div class="${styles.nav}">
-        <a href="/products" data-router-link class="${styles.returnLink}">&larr; Return to the collection</a>
+      <div class="${styles.classes.nav}">
+        <a href="/products" data-router-link class="${styles.classes.returnLink}">&larr; Return to the collection</a>
       </div>
     </div>
   `
@@ -153,7 +148,7 @@ export default (root) => {
   })
 
   return `
-    <div class="${styles.wrapper}">
+    <div class="${styles.classes.wrapper}">
       <div id="products">${programmesCache ? programmesCache() : Loader()}</div>
     </div>
   `

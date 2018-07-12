@@ -1,21 +1,20 @@
 import Title from './title'
-import Stylesheet from './stylesheet'
+import jss from './jss-setup'
 
-const styles = Stylesheet({
-  main: `
-    text-align: center;
-  `,
-  copy: `
-    font-size: 12px;
-    margin: 0;
-    line-height: 1.2;
-  `
-})
+const styles = jss.createStyleSheet({
+  main: {
+    textAlign: 'center'
+  },
+  copy: {
+    fontSize: 12,
+    margin: 0
+  }
+}).attach()
 
 export default () => (`
-  <div class="${styles.main}">
+  <div class="${styles.classes.main}">
     ${Title('Contact Us')}
-    <p class="${styles.copy}">Require a refund or wish to be a stockist?<br />
+    <p class="${styles.classes.copy}">Require a refund or wish to be a stockist?<br />
     Email us at: <a href="mailto:Business@jparre.com">Business@jparre.com</a></p>
   </div>
 `)

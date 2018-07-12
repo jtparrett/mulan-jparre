@@ -1,15 +1,15 @@
-import Stylesheet from './stylesheet'
+import jss from './jss-setup'
 
-const styles = Stylesheet({
-  main: `
-    font-family: 'Old Standard TT', serif;
-    font-size: 20px;
-    margin: 0;
-    padding-bottom: 10px;
-    font-weight: 400;
-  `
-})
+const styles = jss.createStyleSheet({
+  main: {
+    fontFamily: ['Old Standard TT', 'serif'],
+    fontSize: 20,
+    margin: 0,
+    paddingBottom: 10,
+    fontWeight: 400
+  }
+}).attach()
 
 export default (title) => (`
-  <h1 class="${styles.main}">${title}</h1>
+  <h1 class="${styles.classes.main}">${title}</h1>
 `)

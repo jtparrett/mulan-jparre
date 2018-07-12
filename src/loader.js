@@ -1,22 +1,22 @@
-import Stylesheet from './stylesheet'
+import jss from './jss-setup'
 
-const styles = Stylesheet({
-  main: `
-    width: 30px;
-    height: 30px;
-    border: 2px solid transparent;
-    border-top-color: #000;
-    margin: 0 auto;
-    border-radius: 100%;
-    animation: spin .6s infinite linear;
-  `,
+const styles = jss.createStyleSheet({
+  main: {
+    width: 30,
+    height: 30,
+    border: '2px solid transparent',
+    borderTopColor: '#000',
+    margin: [0, 'auto'],
+    borderRadius: '100%',
+    animation: 'spin .6s infinite linear'
+  },
   '@global': {
-    '@keyframes spin': `
-      100% { transform: rotate(360deg) }
-    `
+    '@keyframes spin': {
+      '100%': 'transform: rotate(360deg)'
+    }
   }
-})
+}).attach()
 
 export default () => (`
-  <div class="${styles.main}"></div>
+  <div class="${styles.classes.main}"></div>
 `)

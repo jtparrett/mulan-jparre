@@ -1,61 +1,59 @@
 import {renderNode} from 'mulan'
-import Stylesheet from './stylesheet'
 import Nav from './nav'
 import {createRouter, Link} from './router'
 import Products from './products'
 import ErrorPage from './error-page'
 import Button from './button'
 import Contact from './contact'
+import Logo from './logo'
+import jss from './jss-setup'
 
-const styles = Stylesheet({
-  header: `
-    padding: 100px 0 60px;
-  `,
-  link: `
-    display: block;
-    margin: 0 auto;
-    width: 140px;
-  `,
-  logo: `
-    width: 100%;
-    display: block;
-  `,
-  footer: `
-    text-align: center;
-    padding: 60px 0 100px;
-  `,
-  copyright: `
-    font-size: 12px;
-  `,
-  banner: `
-    font-size: 0;
-    max-width: 800px;
-    margin: 0 auto;
-  `,
-  image: `
-    width: 33.3333%;
-  `,
-  actions: `
-    text-align: center;
-    padding-top: 60px;
-  `,
+const styles = jss.createStyleSheet({
+  header: {
+    padding: [100, 0, 60]
+  },
+  link: {
+    display: 'block',
+    margin: [0, 'auto'],
+    width: 140
+  },
+  footer: {
+    textAlign: 'center',
+    padding: [60, 0, 100]
+  },
+  copyright: {
+    fontSize: 12
+  },
+  banner: {
+    fontSize: 0,
+    maxWidth: 800,
+    margin: [0, 'auto']
+  },
+  image: {
+    width: '33.333333%'
+  },
+  actions: {
+    textAlign: 'center',
+    paddingTop: 60
+  },
   '@global': {
-    body: `
-      margin: 0;
-      line-height: 1;
-      font-family: 'Open Sans', sans-serif;
-      -webkit-font-smoothing: antialiased;
-    `
+    body: {
+      margin: 0,
+      lineHeight: 1.2,
+      fontFamily: ['Open Sans', 'sans-serif'],
+      '-webkit-font-smoothing': 'antialiased'
+    }
   }
-})
+}).attach()
+
 
 const Home = () => (`
-  <div class="${styles.banner}">
-    <img src="/assets/banner-3.jpg" class="${styles.image}" />
-    <img src="/assets/banner-4.jpg" class="${styles.image}" />
-    <img src="/assets/banner-5.jpg" class="${styles.image}" />
+  <div class="${styles.classes.banner}">
+    <img src="/assets/banner-3.jpg" class="${styles.classes.image}" />
+    <img src="/assets/banner-4.jpg" class="${styles.classes.image}" />
+    <img src="/assets/banner-5.jpg" class="${styles.classes.image}" />
   </div>
-  <div class="${styles.actions}">
+  <div class="${styles.classes.actions}">
     ${Button({ title: 'Shop the collection &rarr;', href: '/products' })}
   </div>
 `)
@@ -69,14 +67,14 @@ const Router = createRouter({
 
 const App = (root) => (`
   ${Nav()}
-  <header class="${styles.header}">
-    <a href="/" data-router-link class="${styles.link}">
-      <img src="/assets/box-logo.svg" class="${styles.logo}" />
+  <header class="${styles.classes.header}">
+    <a href="/" data-router-link class="${styles.classes.link}">
+      ${Logo()}
     </a>
   </header>
   ${Router(0)(root)}
-  <footer class="${styles.footer}">
-    <p class="${styles.copyright}">&copy; J.Parré Apparel Co.</p>
+  <footer class="${styles.classes.footer}">
+    <p class="${styles.classes.copyright}">&copy; J.Parré Apparel Co.</p>
   </footer>
 `)
 
