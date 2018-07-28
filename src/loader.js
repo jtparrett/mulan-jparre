@@ -4,7 +4,7 @@ const styles = jss.createStyleSheet({
   main: {
     width: 30,
     height: 30,
-    border: '2px solid transparent',
+    border: '3px solid #fafafa',
     borderTopColor: '#000',
     margin: [0, 'auto'],
     borderRadius: '100%',

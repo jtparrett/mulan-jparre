@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "watchify src/index.js -o public/index.js -t [babelify] & http-server",
+    "start": "watchify src/index.js -o public/index.js -t [babelify]",
     "build": "browserify src/index.js -o public/index.js -t [babelify]"
   },
   "devDependencies": {
@@ -19,7 +19,9 @@
     "delegate-events": "^1.1.1",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
-    "mulan": "^2.0.1",
+    "mulan": "^2.0.2",
+    "mulan-router": "^1.0.1",
+    "path-to-regexp": "^2.2.1",
     "shopify-buy": "^1.6.0"
   }
 }

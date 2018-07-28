@@ -1,7 +1,8 @@
 import {renderNode} from 'mulan'
+import {createRouter} from 'mulan-router'
 import Nav from './nav'
-import {createRouter, Link} from './router'
-import Products from './products'
+import ProductListing from './product-listing'
+import ProductDetail from './product-detail'
 import ErrorPage from './error-page'
 import Button from './button'
 import Contact from './contact'
@@ -47,7 +48,7 @@ const styles = jss.createStyleSheet({
 }).attach()
 
 
-const Home = () => (`
+const Home = () => () => (`
   <div class="${styles.classes.banner}">
     <img src="/assets/banner-3.jpg" class="${styles.classes.image}" />
     <img src="/assets/banner-4.jpg" class="${styles.classes.image}" />
@@ -59,10 +60,11 @@ const Home = () => (`
 `)
 
 const Router = createRouter({
-  '': Home,
-  '404': ErrorPage,
-  'products': Products,
-  'contact': Contact
+  '/': Home,
+  '/products': ProductListing,
+  '/products/:slug': ProductDetail,
+  '/contact': Contact,
+  '/404': ErrorPage
 })
 
 const App = (root) => (`
@@ -72,7 +74,7 @@ const App = (root) => (`
       ${Logo()}
     </a>
   </header>
-  ${Router(0)(root)}
+  ${Router(root)}
   <footer class="${styles.classes.footer}">
     <p class="${styles.classes.copyright}">&copy; J.Parré Apparel Co.</p>
   </footer>
@@ -80,3 +82,4 @@ const App = (root) => (`
 
 
 renderNode(document.getElementById('root'), App)
+

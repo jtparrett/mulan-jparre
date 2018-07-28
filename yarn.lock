@@ -1633,9 +1633,17 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-mulan@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/mulan/-/mulan-2.0.1.tgz#d802b67f65e47b6cb108b8d125300e529accdaf1"
+mulan-router@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mulan-router/-/mulan-router-1.0.1.tgz#786a42f4a77423efffd1c2c3fb18c57a1371e303"
+  dependencies:
+    delegate-events "^1.1.1"
+    mulan "^2.0.2"
+    path-to-regexp "^2.2.1"
+
+mulan@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/mulan/-/mulan-2.0.2.tgz#3361a7fd1f62668d6006638834b06105b43da91a"
 
 nan@^2.9.2:
   version "2.10.0"
@@ -1795,6 +1803,10 @@ path-parse@^1.0.5:
 path-platform@~0.11.15:
   version "0.11.15"
   resolved "https://registry.yarnpkg.com/path-platform/-/path-platform-0.11.15.tgz#e864217f74c36850f0852b78dc7bf7d4a5721bf2"
+
+path-to-regexp@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-2.2.1.tgz#90b617025a16381a879bc82a38d4e8bdeb2bcf45"
 
 pbkdf2@^3.0.3:
   version "3.0.16"

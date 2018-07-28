@@ -1,5 +1,5 @@
 import Title from './title'
 
-export default () => (`
+export default () => () => (`
   ${Title('404. Page not Found. Soz')}
 `)

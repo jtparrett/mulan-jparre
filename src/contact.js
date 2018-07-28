@@ -11,7 +11,7 @@ const styles = jss.createStyleSheet({
   }
 }).attach()
 
-export default () => (`
+export default () => () => (`
   <div class="${styles.classes.main}">
     ${Title('Contact Us')}
     <p class="${styles.classes.copy}">Require a refund or wish to be a stockist?<br />
