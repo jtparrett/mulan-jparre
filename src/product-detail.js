@@ -6,6 +6,9 @@ import Loader from './loader'
 import Title from './title'
 import Button from './button'
 import Product from './product-item'
+import store from './store'
+import {getProductByHandle} from './product-actions'
+import ErrorPage from './error-page'
 
 const styles = jss.createStyleSheet({
   detail: {
@@ -89,13 +92,21 @@ const renderDetail = (product) => (root) => (`
 `)
 
 export default ({params}) => (root) => {
-  client.product.fetchByHandle(params.slug).then(product => {
-    renderNode(document.getElementById('product'), renderDetail(product))
+  const {products} = store.getState()
+
+  const unsubscribe = store.subscribe(() => {
+    const {products} = store.getState()
+    if(products[params.slug]){
+      renderNode(document.getElementById('product'), renderDetail(products[params.slug]))
+    }
+    unsubscribe()
   })
+
+  store.dispatch(getProductByHandle(params.slug))
 
   return `
     <div class="${styles.classes.wrapper}">
-      <div id="product">${Loader()}</div>
+      <div id="product">${products[params.slug] ? renderDetail(products[params.slug])(root) : Loader()}</div>
     </div>
   `
 }

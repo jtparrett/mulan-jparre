@@ -1,9 +1,11 @@
 import {renderNode} from 'mulan'
-import client from './shopify-client'
+import {createSelector} from 'reselect'
 import jss from './jss-setup'
 import Grid from './grid'
 import Loader from './loader'
 import Product from './product-item'
+import store from './store'
+import {getProductsFromCollection} from './product-actions'
 
 const styles = jss.createStyleSheet({
   wrapper: {
@@ -14,19 +16,30 @@ const styles = jss.createStyleSheet({
   }
 }).attach()
 
+const getProducts = (state) => state.products
+
+const getSortedProducts = createSelector(getProducts, (products) => {
+  return Object.values(products).sort((a, b) => a.position - b.position)
+})
+
 const renderProducts = (products) => products.map(Product)
 
-let programmesCache
+const renderMain = (products) => () => Grid(renderProducts(products))
+
 export default () => (root) => {
-  client.collection.fetchByHandle('all').then(({products} = {}) => {
-    const content = () => Grid(renderProducts(products))
-    renderNode(document.getElementById('products'), content)
-    programmesCache = content
+  const products = getSortedProducts(store.getState())
+
+  const unsubscribe = store.subscribe(() => {
+    const products = getSortedProducts(store.getState())
+    renderNode(document.getElementById('products'), renderMain(products))
+    unsubscribe()
   })
+
+  store.dispatch(getProductsFromCollection('all'))
 
   return `
     <div class="${styles.classes.wrapper}">
-      <div id="products">${programmesCache ? programmesCache() : Loader()}</div>
+      <div id="products">${Object.keys(products).length > 0 ? renderMain(products)(root) : Loader()}</div>
     </div>
   `
 }

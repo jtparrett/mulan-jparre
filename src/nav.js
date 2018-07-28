@@ -19,6 +19,5 @@ export default () => (`
   <nav class="${styles.classes.main}">
     <a data-router-link href="/products" class="${styles.classes.link}">Products</a>
     <a data-router-link href="/contact" class="${styles.classes.link}">Contact</a>
-    <a data-router-link href="/archive" class="${styles.classes.link}">Archive</a>
   </nav>
 `)
