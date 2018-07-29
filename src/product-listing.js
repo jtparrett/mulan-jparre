@@ -4,8 +4,8 @@ import jss from './jss-setup'
 import Grid from './grid'
 import Loader from './loader'
 import Product from './product-item'
-import store from './store'
 import {getProductsFromCollection} from './product-actions'
+import connect from './connect'
 
 const styles = jss.createStyleSheet({
   wrapper: {
@@ -26,16 +26,8 @@ const renderProducts = (products) => products.map(Product)
 
 const renderMain = (products) => () => Grid(renderProducts(products))
 
-export default () => (root) => {
-  const products = getSortedProducts(store.getState())
-
-  const unsubscribe = store.subscribe(() => {
-    const products = getSortedProducts(store.getState())
-    renderNode(document.getElementById('products'), renderMain(products))
-    unsubscribe()
-  })
-
-  store.dispatch(getProductsFromCollection('all'))
+const View = ({products, getProducts}) => (root) => {
+  getProducts('all')
 
   return `
     <div class="${styles.classes.wrapper}">
@@ -43,3 +35,20 @@ export default () => (root) => {
     </div>
   `
 }
+
+const mapStateToProps = (state) => ({
+  products: getSortedProducts(state)
+})
+
+const mapPropsOnStateChange = ({products}) => {
+  const el = document.getElementById('products')
+  if(el){
+    renderNode(el, renderMain(products))
+  }
+} 
+
+const mapDispatchToProps = (dispatch) => ({
+  getProducts: (handle) => dispatch(getProductsFromCollection(handle))
+})
+
+export default connect(mapStateToProps, mapPropsOnStateChange, mapDispatchToProps)(View)

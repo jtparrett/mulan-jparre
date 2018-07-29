@@ -6,9 +6,9 @@ import Loader from './loader'
 import Title from './title'
 import Button from './button'
 import Product from './product-item'
-import store from './store'
 import {getProductByHandle} from './product-actions'
 import ErrorPage from './error-page'
+import connect from './connect'
 
 const styles = jss.createStyleSheet({
   detail: {
@@ -91,18 +91,8 @@ const renderDetail = (product) => (root) => (`
   </div>
 `)
 
-export default ({params}) => (root) => {
-  const {products} = store.getState()
-
-  const unsubscribe = store.subscribe(() => {
-    const {products} = store.getState()
-    if(products[params.slug]){
-      renderNode(document.getElementById('product'), renderDetail(products[params.slug]))
-    }
-    unsubscribe()
-  })
-
-  store.dispatch(getProductByHandle(params.slug))
+const View = ({params, products, getProducts}) => (root) => {
+  getProducts()
 
   return `
     <div class="${styles.classes.wrapper}">
@@ -110,3 +100,20 @@ export default ({params}) => (root) => {
     </div>
   `
 }
+
+const mapStateToProps = (state) => ({
+  products: state.products
+})
+
+const mapPropsOnStateChange = ({params, products}) => {
+  const el = document.getElementById('product')
+  if(el && products[params.slug]){
+    renderNode(el, renderDetail(products[params.slug]))
+  }
+}
+
+const mapDispatchToProps = (dispatch, {params}) => ({
+  getProducts: () => dispatch(getProductByHandle(params.slug))
+})
+
+export default connect(mapStateToProps, mapPropsOnStateChange, mapDispatchToProps)(View)
