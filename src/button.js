@@ -20,8 +20,9 @@ const styles = jss.createStyleSheet({
       background: '#fff'
     }
   }
-}).attach()
+})
 
 export default ({title, href}, tag = 'a') => {
+  styles.attach()
   return `<${tag} ${href && `href="${href}" data-router-link`} ${tag === 'button' && 'type="submit"'} class="${styles.classes.main}">${title}</${tag}>`
 }

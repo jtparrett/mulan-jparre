@@ -13,11 +13,15 @@ const styles = jss.createStyleSheet({
     textTransform: 'uppercase',
     padding: [5, 10]
   }
-}).attach()
+})
 
-export default () => (`
-  <nav class="${styles.classes.main}">
-    <a data-router-link href="/products" class="${styles.classes.link}">Products</a>
-    <a data-router-link href="/contact" class="${styles.classes.link}">Contact</a>
-  </nav>
-`)
+export default () => {
+  styles.attach()
+
+  return `
+    <nav class="${styles.classes.main}">
+      <a data-router-link href="/products" class="${styles.classes.link}">Products</a>
+      <a data-router-link href="/contact" class="${styles.classes.link}">Contact</a>
+    </nav>
+  `
+}

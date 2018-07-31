@@ -13,9 +13,11 @@ const styles = jss.createStyleSheet({
       width: 'calc(50% - 5px)'
     }
   }
-}).attach()
+})
 
 export default (items) => {
+  styles.attach()
+
   const content = items.map(item => (`<div class="${styles.classes.item}">${item}</div>`)).join('')
   return `<div class="${styles.classes.main}">${content}</div>`
 }

@@ -14,7 +14,7 @@ const styles = jss.createStyleSheet({
     maxWidth: '100%',
     overflow: 'hidden'
   }
-}).attach()
+})
 
 const getProducts = (state) => state.products
 
@@ -27,6 +27,7 @@ const renderProducts = (products) => products.map(Product)
 const renderMain = (products) => () => Grid(renderProducts(products))
 
 const View = ({products, getProducts}) => (root) => {
+  styles.attach()
   getProducts('all')
 
   return `
@@ -40,11 +41,9 @@ const mapStateToProps = (state) => ({
   products: getSortedProducts(state)
 })
 
-const mapPropsOnStateChange = ({products}) => {
-  const el = document.getElementById('products')
-  if(el){
-    renderNode(el, renderMain(products))
-  }
+const mapPropsOnStateChange = ({products}, unsubscribe) => {
+  const didRender = renderNode(document.getElementById('products'), renderMain(products))
+  if(!didRender) unsubscribe()
 } 
 
 const mapDispatchToProps = (dispatch) => ({

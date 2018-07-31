@@ -45,8 +45,7 @@ const styles = jss.createStyleSheet({
       '-webkit-font-smoothing': 'antialiased'
     }
   }
-}).attach()
-
+})
 
 const Home = () => () => (`
   <div class="${styles.classes.banner}">
@@ -67,18 +66,22 @@ const Router = createRouter({
   '/404': ErrorPage
 })
 
-const App = (root) => (`
-  ${Nav()}
-  <header class="${styles.classes.header}">
-    <a href="/" data-router-link class="${styles.classes.link}">
-      ${Logo()}
-    </a>
-  </header>
-  ${Router(root)}
-  <footer class="${styles.classes.footer}">
-    <p class="${styles.classes.copyright}">&copy; J.Parré Apparel Co.</p>
-  </footer>
-`)
+const App = (root) => {
+  styles.attach()
+
+  return `
+    ${Nav()}
+    <header class="${styles.classes.header}">
+      <a href="/" data-router-link class="${styles.classes.link}">
+        ${Logo()}
+      </a>
+    </header>
+    ${Router(root)}
+    <footer class="${styles.classes.footer}">
+      <p class="${styles.classes.copyright}">&copy; J.Parré Apparel Co.</p>
+    </footer>
+  `
+}
 
 
 renderNode(document.getElementById('root'), App)

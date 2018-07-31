@@ -45,7 +45,7 @@ const styles = jss.createStyleSheet({
     fontStyle: 'italic',
     margin: 0
   }
-}).attach()
+})
 
 let checkoutId
 client.checkout.create().then((checkout) => {
@@ -77,7 +77,7 @@ const buyForm = (root, product) => {
   `
 }
 
-const renderDetail = (product) => (root) => (`
+const renderDetail = (product = {}) => (root) => (`
   ${Product(product)}
   <div class="${styles.classes.detail}">
     ${Title(product.title)}
@@ -92,6 +92,7 @@ const renderDetail = (product) => (root) => (`
 `)
 
 const View = ({params, products, getProducts}) => (root) => {
+  styles.attach()
   getProducts()
 
   return `
@@ -105,11 +106,9 @@ const mapStateToProps = (state) => ({
   products: state.products
 })
 
-const mapPropsOnStateChange = ({params, products}) => {
-  const el = document.getElementById('product')
-  if(el && products[params.slug]){
-    renderNode(el, renderDetail(products[params.slug]))
-  }
+const mapPropsOnStateChange = ({params, products}, unsubscribe) => {
+  const didRender = renderNode(document.getElementById('product'), renderDetail(products[params.slug]))
+  if(!didRender) unsubscribe()
 }
 
 const mapDispatchToProps = (dispatch, {params}) => ({

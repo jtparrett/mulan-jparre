@@ -8,8 +8,10 @@ const styles = jss.createStyleSheet({
     paddingBottom: 10,
     fontWeight: 400
   }
-}).attach()
+})
 
-export default (title) => (`
-  <h1 class="${styles.classes.main}">${title}</h1>
-`)
+export default (title) => {
+  styles.attach()
+
+  return `<h1 class="${styles.classes.main}">${title}</h1>`
+}

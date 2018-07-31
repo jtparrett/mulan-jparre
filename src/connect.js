@@ -1,19 +1,15 @@
 import store from './store'
 
-let unsubscribe
-
-export default (mapStateToProps, mapPropsOnStateChange, mapDispatchToProps) => (component) => (props) => (root) => {
-  if(unsubscribe){ unsubscribe() }
-
+export default (mapStateToProps, mapPropsOnStateChange, mapDispatchToProps) => (component) => (props) => {
   const dispatchProps = mapDispatchToProps(store.dispatch, props)
 
-  unsubscribe = store.subscribe(() => {
+  const unsubscribe = store.subscribe(() => {
     const state = store.getState()
     const stateProps = mapStateToProps(state)
-    mapPropsOnStateChange({...props, ...dispatchProps, ...stateProps})
+    mapPropsOnStateChange({...props, ...dispatchProps, ...stateProps}, unsubscribe)
   })
 
   const state = store.getState()
   const stateProps = mapStateToProps(state)
-  return component({...props, ...dispatchProps, ...stateProps})(root)
+  return component({...props, ...dispatchProps, ...stateProps})
 } 

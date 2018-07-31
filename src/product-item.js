@@ -17,10 +17,14 @@ const styles = jss.createStyleSheet({
     maxWidth: '75%',
     maxHeight: '75%'
   }
-}).attach()
+})
 
-export default (product) => (`
-  <a href="/products/${product.handle}" data-router-link class="${styles.classes.product}">
-    <img src="${client.image.helpers.imageForSize(product.images[0], {maxWidth: 600, maxHeight: 600})}" class="${styles.classes.image}" />
-  </a>
-`)
+export default (product) => {
+  styles.attach()
+
+  return `
+    <a href="/products/${product.handle}" data-router-link class="${styles.classes.product}">
+      <img src="${client.image.helpers.imageForSize(product.images[0], {maxWidth: 600, maxHeight: 600})}" class="${styles.classes.image}" />
+    </a>
+  `
+}

@@ -15,8 +15,10 @@ const styles = jss.createStyleSheet({
       '100%': 'transform: rotate(360deg)'
     }
   }
-}).attach()
+})
 
-export default () => (`
-  <div class="${styles.classes.main}"></div>
-`)
+export default () => {
+  styles.attach()
+
+  return `<div class="${styles.classes.main}"></div>`
+}
