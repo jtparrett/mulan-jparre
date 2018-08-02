@@ -1,4 +1,4 @@
-import {renderNode} from 'mulan'
+import {createRenderer} from 'mulan'
 import {createRouter} from 'mulan-router'
 import Nav from './nav'
 import ProductListing from './product-listing'
@@ -47,16 +47,18 @@ const styles = jss.createStyleSheet({
   }
 })
 
-const Home = () => () => (`
-  <div class="${styles.classes.banner}">
-    <img src="/assets/banner-3.jpg" class="${styles.classes.image}" />
-    <img src="/assets/banner-4.jpg" class="${styles.classes.image}" />
-    <img src="/assets/banner-5.jpg" class="${styles.classes.image}" />
-  </div>
-  <div class="${styles.classes.actions}">
-    ${Button({ title: 'Shop the collection &rarr;', href: '/products' })}
-  </div>
-`)
+const Home = () => (render) => {
+  render(`
+    <div class="${styles.classes.banner}">
+      <img src="/assets/banner-3.jpg" class="${styles.classes.image}" />
+      <img src="/assets/banner-4.jpg" class="${styles.classes.image}" />
+      <img src="/assets/banner-5.jpg" class="${styles.classes.image}" />
+    </div>
+    <div class="${styles.classes.actions}">
+      ${Button({ title: 'Shop the collection &rarr;', href: '/products' })}
+    </div>
+  `)
+}
 
 const Router = createRouter({
   '/': Home,
@@ -66,23 +68,25 @@ const Router = createRouter({
   '/404': ErrorPage
 })
 
-const App = (root) => {
+const App = (render, root) => {
   styles.attach()
 
-  return `
+  render(`
     ${Nav()}
     <header class="${styles.classes.header}">
       <a href="/" data-router-link class="${styles.classes.link}">
         ${Logo()}
       </a>
     </header>
-    ${Router(root)}
+    <div id="router"></div>
     <footer class="${styles.classes.footer}">
-      <p class="${styles.classes.copyright}">&copy; J.Parré Apparel Co.</p>
+      <p class="${styles.classes.copyright}">&copy;2018 J.Parré Apparel Co.</p>
     </footer>
-  `
+  `)
+
+  createRenderer(document.getElementById('router'), Router)
 }
 
 
-renderNode(document.getElementById('root'), App)
+createRenderer(document.getElementById('root'), App)
 

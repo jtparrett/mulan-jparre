@@ -1,4 +1,3 @@
-import {renderNode} from 'mulan'
 import {createSelector} from 'reselect'
 import jss from './jss-setup'
 import Grid from './grid'
@@ -16,38 +15,38 @@ const styles = jss.createStyleSheet({
   }
 })
 
+const renderProducts = (products) => products.map(Product)
+
+const renderMain = (products) => `
+  <div class="${styles.classes.wrapper}">
+    ${Grid(renderProducts(products))}
+  </div>
+`
+
+const View = ({products, getProducts}) => (render) => {
+  styles.attach()
+  getProducts('all')
+
+  render(Object.keys(products).length > 0 ? renderMain(products) : Loader())
+}
+
 const getProducts = (state) => state.products
 
 const getSortedProducts = createSelector(getProducts, (products) => {
   return Object.values(products).sort((a, b) => a.position - b.position)
 })
 
-const renderProducts = (products) => products.map(Product)
-
-const renderMain = (products) => () => Grid(renderProducts(products))
-
-const View = ({products, getProducts}) => (root) => {
-  styles.attach()
-  getProducts('all')
-
-  return `
-    <div class="${styles.classes.wrapper}">
-      <div id="products">${Object.keys(products).length > 0 ? renderMain(products)(root) : Loader()}</div>
-    </div>
-  `
-}
-
 const mapStateToProps = (state) => ({
   products: getSortedProducts(state)
 })
-
-const mapPropsOnStateChange = ({products}, unsubscribe) => {
-  const didRender = renderNode(document.getElementById('products'), renderMain(products))
-  if(!didRender) unsubscribe()
-} 
 
 const mapDispatchToProps = (dispatch) => ({
   getProducts: (handle) => dispatch(getProductsFromCollection(handle))
 })
 
-export default connect(mapStateToProps, mapPropsOnStateChange, mapDispatchToProps)(View)
+const updateOnStateChange = ({products, unsubscribe}) => (render, root) => {
+  const didRender = render(renderMain(products))
+  if(!didRender) unsubscribe()
+} 
+
+export default connect(mapStateToProps, mapDispatchToProps, updateOnStateChange)(View)

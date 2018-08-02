@@ -1643,17 +1643,16 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-mulan-router@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/mulan-router/-/mulan-router-1.0.1.tgz#786a42f4a77423efffd1c2c3fb18c57a1371e303"
+mulan-router@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/mulan-router/-/mulan-router-2.0.3.tgz#e960ad3023b376648eaef38964065d4df92f3087"
   dependencies:
     delegate-events "^1.1.1"
-    mulan "^2.0.2"
     path-to-regexp "^2.2.1"
 
-mulan@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/mulan/-/mulan-2.0.2.tgz#3361a7fd1f62668d6006638834b06105b43da91a"
+mulan@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/mulan/-/mulan-3.0.3.tgz#fd452f136b02630a0eef190896c46b73e9a86bce"
 
 nan@^2.9.2:
   version "2.10.0"

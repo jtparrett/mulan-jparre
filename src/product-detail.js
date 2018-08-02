@@ -1,4 +1,3 @@
-import {renderNode} from 'mulan'
 import delegate from 'delegate-events'
 import jss from './jss-setup'
 import client from './shopify-client'
@@ -91,23 +90,25 @@ const renderDetail = (product = {}) => (root) => (`
   </div>
 `)
 
-const View = ({params, products, getProducts}) => (root) => {
+const renderMain = (product) => (root) => `
+  <div class="${styles.classes.wrapper}">
+    ${renderDetail(product)(root)}
+  </div>
+`
+
+const View = ({params, products, getProducts}) => (render, root) => {
   styles.attach()
   getProducts()
 
-  return `
-    <div class="${styles.classes.wrapper}">
-      <div id="product">${products[params.slug] ? renderDetail(products[params.slug])(root) : Loader()}</div>
-    </div>
-  `
+  render(products[params.slug] ? renderMain(products[params.slug])(root) : Loader())
 }
 
 const mapStateToProps = (state) => ({
   products: state.products
 })
 
-const mapPropsOnStateChange = ({params, products}, unsubscribe) => {
-  const didRender = renderNode(document.getElementById('product'), renderDetail(products[params.slug]))
+const updateOnStateChange = ({params, products}, unsubscribe) => (render, root) => {
+  const didRender = render(renderMain(products[params.slug])(root))
   if(!didRender) unsubscribe()
 }
 
@@ -115,4 +116,4 @@ const mapDispatchToProps = (dispatch, {params}) => ({
   getProducts: () => dispatch(getProductByHandle(params.slug))
 })
 
-export default connect(mapStateToProps, mapPropsOnStateChange, mapDispatchToProps)(View)
+export default connect(mapStateToProps, mapDispatchToProps, updateOnStateChange)(View)

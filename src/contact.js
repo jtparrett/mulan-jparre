@@ -11,14 +11,14 @@ const styles = jss.createStyleSheet({
   }
 })
 
-export default () => () => {
+export default () => (render) => {
   styles.attach()
 
-  return `
+  render(`
     <div class="${styles.classes.main}">
       ${Title('Contact Us')}
       <p class="${styles.classes.copy}">Require a refund or wish to be a stockist?<br />
       Email us at: <a href="mailto:Business@jparre.com">Business@jparre.com</a></p>
     </div>
-  `
+  `)
 }

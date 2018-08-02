@@ -7,12 +7,12 @@ const styles = jss.createStyleSheet({
   }
 })
 
-export default () => () => {
+export default () => (render) => {
   styles.attach()
 
-  return `
+  render(`
     <div class="${styles.classes.main}">
       ${Title('404. Page not Found. Soz')}
     </div>
-  `
+  `)
 }
