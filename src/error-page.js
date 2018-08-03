@@ -1,5 +1,6 @@
 import jss from './jss-setup'
 import Title from './title'
+import Button from './button'
 
 const styles = jss.createStyleSheet({
   main: {
@@ -12,7 +13,8 @@ export default () => (render) => {
 
   render(`
     <div class="${styles.classes.main}">
-      ${Title('404. Page not Found. Soz')}
+      ${Title('Page Not Found')}
+      ${Button({ title: '&larr; Back Home', href: '/' })}
     </div>
   `)
 }

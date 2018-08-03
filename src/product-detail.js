@@ -52,14 +52,6 @@ client.checkout.create().then((checkout) => {
 })
 
 const buyForm = (root, product) => {
-  delegate.bind(root, '#checkout-form', 'submit', (e) => {
-    e.preventDefault()
-    const item = { variantId: e.target.elements['variant'].value, quantity: 1 }
-    client.checkout.addLineItems(checkoutId, [item]).then((checkout) => {
-      window.location.href = checkout.webUrl
-    })
-  })
-
   const variants = product.variants
     .filter(v => v.available)
     .map(v => `<option value="${v.id}">${v.title}</option>`)
@@ -96,6 +88,19 @@ const renderMain = (product) => (root) => `
   </div>
 `
 
+const attachEvents = () => {
+  const form = document.getElementById('checkout-form')
+  if(!form) return false
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const item = { variantId: e.target.elements['variant'].value, quantity: 1 }
+    client.checkout.addLineItems(checkoutId, [item]).then((checkout) => {
+      window.location.href = checkout.webUrl
+    })
+  })
+}
+
 const View = ({params, products, getProducts}) => (render, root) => {
   styles.attach()
   getProducts()
@@ -109,6 +114,7 @@ const mapStateToProps = (state) => ({
 
 const updateOnStateChange = ({params, products}, unsubscribe) => (render, root) => {
   const didRender = render(renderMain(products[params.slug])(root))
+  attachEvents()
   if(!didRender) unsubscribe()
 }
 

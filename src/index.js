@@ -1,15 +1,24 @@
 import {createRenderer} from 'mulan'
 import {createRouter} from 'mulan-router'
 import Nav from './nav'
+import Home from './home'
 import ProductListing from './product-listing'
 import ProductDetail from './product-detail'
 import ErrorPage from './error-page'
-import Button from './button'
 import Contact from './contact'
 import Logo from './logo'
 import jss from './jss-setup'
 
 const styles = jss.createStyleSheet({
+  page: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh'
+  },
+  stretch: {
+    margin: ['auto', 0],
+    flex: 'none'
+  },
   header: {
     padding: [100, 0, 60]
   },
@@ -25,18 +34,6 @@ const styles = jss.createStyleSheet({
   copyright: {
     fontSize: 12
   },
-  banner: {
-    fontSize: 0,
-    maxWidth: 800,
-    margin: [0, 'auto']
-  },
-  image: {
-    width: '33.333333%'
-  },
-  actions: {
-    textAlign: 'center',
-    paddingTop: 60
-  },
   '@global': {
     body: {
       margin: 0,
@@ -46,19 +43,6 @@ const styles = jss.createStyleSheet({
     }
   }
 })
-
-const Home = () => (render) => {
-  render(`
-    <div class="${styles.classes.banner}">
-      <img src="/assets/banner-3.jpg" class="${styles.classes.image}" />
-      <img src="/assets/banner-4.jpg" class="${styles.classes.image}" />
-      <img src="/assets/banner-5.jpg" class="${styles.classes.image}" />
-    </div>
-    <div class="${styles.classes.actions}">
-      ${Button({ title: 'Shop the collection &rarr;', href: '/products' })}
-    </div>
-  `)
-}
 
 const Router = createRouter({
   '/': Home,
@@ -72,19 +56,25 @@ const App = (render, root) => {
   styles.attach()
 
   render(`
-    ${Nav()}
-    <header class="${styles.classes.header}">
-      <a href="/" data-router-link class="${styles.classes.link}">
-        ${Logo()}
-      </a>
-    </header>
-    <div id="router"></div>
-    <footer class="${styles.classes.footer}">
-      <p class="${styles.classes.copyright}">&copy;2018 J.Parré Apparel Co.</p>
-    </footer>
+    <div class="${styles.classes.page}">
+      ${Nav()}
+      <header class="${styles.classes.header}">
+        <a href="/" data-router-link class="${styles.classes.link}">
+          ${Logo()}
+        </a>
+      </header>
+      <div id="router" class="${styles.classes.stretch}"></div>
+      <footer class="${styles.classes.footer}">
+        <p class="${styles.classes.copyright}">&copy;2018 J.Parré Apparel Co.</p>
+      </footer>
+    </div>
   `)
 
   createRenderer(document.getElementById('router'), Router)
+
+  window.addEventListener('pushstate', () => {
+    window.scrollTo(0, 0)
+  })
 }
 
 
